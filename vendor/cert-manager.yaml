@@ -45,7 +45,6 @@ spec:
         name: cert-manager-webhook
         namespace: cert-manager
         path: /convert
-error: unable to recognize "vendor/clusterissuer.yaml": no matches for kind "
   group: cert-manager.io
   names:
     kind: CertificateRequest

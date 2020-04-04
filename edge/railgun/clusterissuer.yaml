@@ -1,7 +1,7 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
-  name: teknoid-issuer
+  name: teknoid
   namespace: edge
 spec:
   acme:
