@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: graphql.mathrix.tech-certificate
+  namespace: stable
+spec:
+  secretName: graphql.mathrix.tech-secret
+  issuerRef:
+    kind: ClusterIssuer
+    name: teknoid-issuer
+  commonName: graphql.mathrix.tech
+  dnsNames:
+    - graphql.mathrix.tech
+  acme:
+    config:
+      - dns01:
+          provider: clouddns
+        domains:
+          - graphql.mathrix.tech

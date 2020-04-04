@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: api-ingress
+  namespace: stable
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # CORS support
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    # client_body_size for uploads
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100m
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_clear_headers Server;
+    nginx.ingress.kubernetes.io/backend-protocol: "FCGI"
+    nginx.ingress.kubernetes.io/fastcgi-index: "index.php"
+    nginx.ingress.kubernetes.io/fastcgi-params-configmap: "fastcgi-configmap"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: graphql.mathrix.tech
+      http:
+        paths:
+          - path: /stable(/|$)(.*)
+            backend:
+              serviceName: railgun
+              servicePort: 9000
+  tls:
+  - hosts:
+    - graphql.mathrix.tech
+    secretName: graphql.mathrix.tech-secret

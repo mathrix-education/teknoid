@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fastcgi-configmap
+  namespace: edge
+data:
+  SCRIPT_FILENAME: "/var/www/public/index.php"

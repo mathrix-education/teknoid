@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-configmap
+  namespace: stable
+data:
+  SCRIPT_FILENAME: "/var/www/public/index.php"

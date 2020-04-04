@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-worker
+  namespace: stable
+  labels:
+    app: railgun
+    type: worker
+spec:
+  selector:
+    matchLabels:
+      app: railgun
+      type: worker
+  template:
+    metadata:
+      labels:
+        app: railgun
+        type: worker
+    spec:
+      containers:
+        - args:
+            - "worker"
+          image: eu.gcr.io/mathrix-education/education-api:7.0.0-dev-196.379f806
+          imagePullPolicy: IfNotPresent
+          name: worker
+          envFrom:
+          - configMapRef:
+              name: env-configmap
+          volumeMounts:
+          - name: keychain-volume
+            mountPath: /var/www/storage/keychain
+      volumes:
+        - name: keychain-volume
+          configMap:
+            name: keychain
+          
+              
