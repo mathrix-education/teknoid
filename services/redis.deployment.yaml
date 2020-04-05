@@ -15,7 +15,7 @@ spec:
         app: redis
     spec:
       containers:
-        - args: [--appendonly, yes]
+        - args: ["--appendonly", "yes"]
           image: redis:5.0-alpine
           imagePullPolicy: IfNotPresent
           name: redis
@@ -23,9 +23,9 @@ spec:
           - containerPort: 6379
           resources:
             requests:
-              memory: 512Mi
+              memory: 128Mi
             limits:
-              memory: 512Mi
+              memory: 128Mi
           volumeMounts:
             - mountPath: "/data"
               name: redis-volume
