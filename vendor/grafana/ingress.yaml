@@ -15,7 +15,7 @@ spec:
         paths:
           - backend:
               serviceName: grafana
-              servicePort: 9090
+              servicePort: 3000
   tls:
     - hosts:
         - grafana.mathrix.tech

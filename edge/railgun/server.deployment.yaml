@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-server
-  namespace: edge
+  namespace: services
   labels:
     app: railgun
     type: server
