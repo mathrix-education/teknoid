@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: services
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_clear_headers Server;
+    cert-manager.io/cluster-issuer: teknoid
+spec:
+  rules:
+    - host: grafana.mathrix.tech
+      http:
+        paths:
+          - backend:
+              serviceName: grafana
+              servicePort: 9090
+  tls:
+    - hosts:
+        - grafana.mathrix.tech
+      secretName: grafana.mathrix.tech-secret
