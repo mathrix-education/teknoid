@@ -32,10 +32,13 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+          securityContext:
+            runAsUser: 0
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: data
       restartPolicy: Always
       volumes:
         - name: data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: grafana-pvc

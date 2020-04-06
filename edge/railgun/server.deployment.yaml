@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-server
-  namespace: services
+  namespace: edge
   labels:
     app: railgun
     type: server
@@ -18,7 +18,7 @@ spec:
         type: server
     spec:
       containers:
-        - image: eu.gcr.io/mathrix-education/education-api:7.0.0-dev-196.379f806
+        - image: eu.gcr.io/mathrix-education/education-api:7.0.0-dev-393.v7-prometheus.1dc3ec0
           imagePullPolicy: IfNotPresent
           name: php-server
           envFrom:

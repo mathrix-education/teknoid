@@ -24,6 +24,8 @@ spec:
             - "--storage.tsdb.path=/prometheus/"
           ports:
             - containerPort: 9090
+          securityContext:
+            runAsUser: 0
           volumeMounts:
             - name: prometheus-config-volume
               mountPath: /etc/prometheus/
@@ -34,5 +36,6 @@ spec:
           configMap:
             name: prometheus-configuration
         - name: prometheus-storage-volume
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: prometheus-pvc
 

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-worker
-  namespace: services
+  namespace: edge
   labels:
     app: railgun
     type: worker
