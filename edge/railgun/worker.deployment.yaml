@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-worker
+  name: railgun-worker
   namespace: edge
   labels:
     app: railgun
@@ -18,17 +18,16 @@ spec:
         type: worker
     spec:
       containers:
-        - args:
-            - "worker"
+        - args: [worker]
           image: eu.gcr.io/mathrix-education/education-api:7.0.0-dev-393.v7-prometheus.1dc3ec0
           imagePullPolicy: IfNotPresent
           name: worker
           envFrom:
-          - configMapRef:
-              name: env-configmap
+            - configMapRef:
+                name: env-configmap
           volumeMounts:
-          - name: keychain-volume
-            mountPath: /var/www/storage/keychain
+            - name: keychain-volume
+              mountPath: /var/www/storage/keychain
       volumes:
         - name: keychain-volume
           configMap:

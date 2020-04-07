@@ -25,6 +25,6 @@ spec:
               serviceName: railgun
               servicePort: 9000
   tls:
-  - hosts:
-    - graphql.mathrix.tech
-    secretName: graphql.mathrix.tech-secret
+    - hosts:
+        - graphql.mathrix.tech
+      secretName: graphql.mathrix.tech-secret

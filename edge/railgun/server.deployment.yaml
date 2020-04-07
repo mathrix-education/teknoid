@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-server
+  name: railgun-server
   namespace: edge
   labels:
     app: railgun
@@ -20,13 +20,20 @@ spec:
       containers:
         - image: eu.gcr.io/mathrix-education/education-api:7.0.0-dev-393.v7-prometheus.1dc3ec0
           imagePullPolicy: IfNotPresent
-          name: php-server
+          name: server
           envFrom:
           - configMapRef:
               name: env-configmap
           volumeMounts:
           - name: keychain-volume
             mountPath: /var/www/storage/keychain
+        - name: php-fpm-exporter
+          image: hipages/php-fpm_exporter:1.1.0
+          imagePullPolicy: IfNotPresent
+          args: [server]
+          env:
+            - name: PHP_FPM_SCRAPE_URI
+              value: tcp://127.0.0.1:9000/status
       volumes:
         - name: keychain-volume
           configMap:
