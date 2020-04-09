@@ -7,6 +7,7 @@ metadata:
     app: railgun
     type: server
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: railgun
@@ -18,7 +19,7 @@ spec:
         type: server
     spec:
       containers:
-        - image: eu.gcr.io/mathrix-education/education-api:7.0.0-dev-393.v7-prometheus.1dc3ec0
+        - image: eu.gcr.io/mathrix-education/education-api:latest-v7
           imagePullPolicy: IfNotPresent
           name: server
           envFrom:
