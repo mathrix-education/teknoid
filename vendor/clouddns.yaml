@@ -1,8 +1,0 @@
-apiVersion: v1
-data:
-  ***REMOVED***
-kind: Secret
-metadata:
-  name: clouddns
-  namespace: cert-manager
-type: Opaque
