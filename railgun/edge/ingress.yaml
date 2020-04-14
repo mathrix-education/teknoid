@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+spec:
+  rules:
+    - host: edge.mathrix.tech
+      http:
+        paths:
+          - path: /graphql(/|$)(.*)
+            backend:
+              serviceName: railgun
+              servicePort: 8080
+  tls:
+    - hosts:
+        - edge.mathrix.tech
+      secretName: edge.mathrix.tech-secret

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: railgun-worker
+  labels:
+    app.kubernetes.io/name: railgun-worker
+    app.kubernetes.io/component: worker
+    app.kubernetes.io/part-of: railgun
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: railgun-worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: railgun-worker
+        app.kubernetes.io/component: worker
+        app.kubernetes.io/part-of: railgun
+    spec:
+      containers:
+        - args: [worker]
+          image: eu.gcr.io/mathrix-education/education-api:latest-v7
+          imagePullPolicy: IfNotPresent
+          name: worker
+          envFrom:
+            - configMapRef:
+                name: env-configmap
+          volumeMounts:
+            - name: keychain-volume
+              mountPath: /var/www/storage/keychain
+      volumes:
+        - name: keychain-volume
+          configMap:
+            name: keychain
+          
+              
