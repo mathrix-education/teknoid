@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-server
+  labels:
+    app.kubernetes.io/name: angular-server
+    app.kubernetes.io/component: server
+    app.kubernetes.io/part-of: angular
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: angular-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: angular-server
+        app.kubernetes.io/component: server
+        app.kubernetes.io/part-of: angular
+    spec:
+      containers:
+        - name: server
+          image: eu.gcr.io/mathrix-education/education-angular-v7:0.1.0-f84b3b1
+          imagePullPolicy: Always
