@@ -15,12 +15,12 @@ spec:
         app: redis
     spec:
       containers:
-        - args: ["--appendonly", "yes"]
-          image: redis:5.0-alpine
+        - name: redis
+          image: 'redis:5.0-alpine'
+          args: ['--appendonly', 'yes']
           imagePullPolicy: IfNotPresent
-          name: redis
           ports:
-          - containerPort: 6379
+            - containerPort: 6379
           resources:
             requests:
               memory: 128Mi
@@ -29,6 +29,10 @@ spec:
           volumeMounts:
             - mountPath: "/data"
               name: redis-volume
+        - name: redis-exporter
+          image: 'oliver006/redis_exporter:alpine'
+          ports:
+            - containerPort: 9121
       volumes:
         - name: redis-volume
           persistentVolumeClaim:

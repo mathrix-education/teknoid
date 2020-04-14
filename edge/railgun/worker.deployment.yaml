@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: railgun-worker
   namespace: edge
+  name: railgun-worker
   labels:
-    app: railgun
-    type: worker
+    app.kubernetes.io/name: railgun-worker
+    app.kubernetes.io/component: worker
+    app.kubernetes.io/part-of: railgun
 spec:
   selector:
     matchLabels:
-      app: railgun
-      type: worker
+      app.kubernetes.io/name: railgun-worker
   template:
     metadata:
       labels:
-        app: railgun
-        type: worker
+        app.kubernetes.io/name: railgun-worker
+        app.kubernetes.io/component: worker
+        app.kubernetes.io/part-of: railgun
     spec:
       containers:
         - args: [worker]

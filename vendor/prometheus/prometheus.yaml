@@ -28,7 +28,6 @@ scrape_configs:
         regex: prometheus-server
         action: drop
   - job_name: 'api-scrap'
-    scrape_interval: 1s
     scheme: https
     static_configs:
       - targets: ['graphql.mathrix.tech']
