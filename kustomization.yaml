@@ -1,7 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
+bases:
   - angular
   - railgun
   - services
   - vendor
+resources:
+  - ./namespaces/edge.yaml
