@@ -9,3 +9,6 @@ spec:
     - name: http
       port: 8080
       targetPort: 8080
+    - name: php-fpm
+      port: 9253
+      targetPort: 9253

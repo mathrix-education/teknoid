@@ -28,6 +28,6 @@ scrape_configs:
         regex: prometheus-server
         action: drop
   - job_name: 'api-scrap'
-    scheme: https
+    scheme: http
     static_configs:
-      - targets: ['graphql.mathrix.tech']
+      - targets: ['railgun.edge.svc.cluster.local:8080']

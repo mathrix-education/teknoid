@@ -2,6 +2,8 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: angular
+  annotations:
+    nginx.ingress.kubernetes.io/auth-secret: htaccess
 spec:
   rules:
     - host: edge.mathrix.tech

@@ -5,3 +5,7 @@ patchesStrategicMerge:
   - ingress.yaml
 bases:
   - ../base
+secretGenerator:
+  - files:
+      - auth
+    name: htaccess
