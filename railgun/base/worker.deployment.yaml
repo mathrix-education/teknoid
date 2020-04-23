@@ -17,6 +17,7 @@ spec:
         app.kubernetes.io/component: worker
         app.kubernetes.io/part-of: railgun
     spec:
+      serviceAccountName: railgun
       containers:
         - args: [worker]
           image: eu.gcr.io/mathrix-education/education-api:latest-v7

@@ -18,6 +18,7 @@ spec:
         app.kubernetes.io/component: server
         app.kubernetes.io/part-of: railgun
     spec:
+      serviceAccountName: railgun
       containers:
         - name: server
           image: eu.gcr.io/mathrix-education/education-api:latest-v7

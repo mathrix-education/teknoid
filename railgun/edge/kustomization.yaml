@@ -6,7 +6,6 @@ patchesStrategicMerge:
 configMapGenerator:
   - name: keychain
     files:
-      - ./keychain/google_cloud_auth.json
       - ./keychain/login.json
       - ./keychain/reset.json
   - name: env-configmap
