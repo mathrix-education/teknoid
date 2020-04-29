@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: railgun
+spec:
+  rules:
+    - host: production.mathrix.tech
+      http:
+        paths:
+          - path: /()(sitemap).xml
+            backend:
+              serviceName: railgun
+              servicePort: 8080
+          - path: /graphql(/|$)(.*)
+            backend:
+              serviceName: railgun
+              servicePort: 8080
+  tls:
+    - hosts:
+        - production.mathrix.tech
+      secretName: production.mathrix.tech-secret

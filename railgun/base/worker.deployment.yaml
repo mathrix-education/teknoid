@@ -5,7 +5,6 @@ metadata:
   labels:
     app.kubernetes.io/name: railgun-worker
     app.kubernetes.io/component: worker
-    app.kubernetes.io/part-of: railgun
 spec:
   selector:
     matchLabels:
@@ -15,7 +14,6 @@ spec:
       labels:
         app.kubernetes.io/name: railgun-worker
         app.kubernetes.io/component: worker
-        app.kubernetes.io/part-of: railgun
     spec:
       serviceAccountName: railgun
       containers:
@@ -25,12 +23,12 @@ spec:
           name: worker
           envFrom:
             - configMapRef:
-                name: env-configmap
+                name: railgun-env
           volumeMounts:
-            - name: keychain-volume
+            - name: keychain
               mountPath: /var/www/storage/keychain
       volumes:
-        - name: keychain-volume
+        - name: keychain
           configMap:
             name: keychain
           

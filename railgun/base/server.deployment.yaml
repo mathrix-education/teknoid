@@ -5,7 +5,6 @@ metadata:
   labels:
     app.kubernetes.io/name: railgun-server
     app.kubernetes.io/component: server
-    app.kubernetes.io/part-of: railgun
 spec:
   replicas: 1
   selector:
@@ -16,20 +15,19 @@ spec:
       labels:
         app.kubernetes.io/name: railgun-server
         app.kubernetes.io/component: server
-        app.kubernetes.io/part-of: railgun
     spec:
       serviceAccountName: railgun
       containers:
         - name: server
-          image: eu.gcr.io/mathrix-education/education-api:latest-v7
+          image: eu.gcr.io/mathrix-education/education-api:latest-master
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
-                name: env-configmap
+                name: railgun-env
           volumeMounts:
-            - name: keychain-volume
+            - name: keychain
               mountPath: /var/www/storage/keychain
-            - name: public-volume
+            - name: shared
               mountPath: /var/shared
           lifecycle:
             postStart:
@@ -39,25 +37,25 @@ spec:
           image: nginx:mainline-alpine
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - name: nginx-conf-volume
+            - name: nginx-conf
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
-            - name: public-volume
+            - name: shared
               mountPath: /var/www
-        - name: php-fpm-exporter
-          image: hipages/php-fpm_exporter:1.1.0
-          imagePullPolicy: IfNotPresent
-          args: [server]
-          env:
-            - name: PHP_FPM_SCRAPE_URI
-              value: tcp://127.0.0.1:9000/status
+#        - name: php-fpm-exporter
+#          image: hipages/php-fpm_exporter:1.1.0
+#          imagePullPolicy: IfNotPresent
+#          args: [server]
+#          env:
+#            - name: PHP_FPM_SCRAPE_URI
+#              value: tcp://127.0.0.1:9000/status
       volumes:
-        - name: keychain-volume
+        - name: keychain
           configMap:
             name: keychain
-        - name: nginx-conf-volume
+        - name: nginx-conf
           configMap:
             name: nginx-conf
-        - name: public-volume
+        - name: shared
           emptyDir: {}
 
