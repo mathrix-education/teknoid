@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: railgun-server
+  labels:
+    app.kubernetes.io/name: railgun-server
+    app.kubernetes.io/component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: railgun-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: railgun-server
+        app.kubernetes.io/component: server
+    spec:
+      serviceAccountName: railgun
+      containers:
+        - name: server
+          image: eu.gcr.io/mathrix-education/education-api:latest-master
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: railgun-env
+          volumeMounts:
+            - name: keychain
+              mountPath: /var/www/storage/keychain
+            - name: shared
+              mountPath: /var/shared
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "cp -r /var/www/* /var/shared"]
+        - name: nginx
+          image: nginx:mainline-alpine
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: shared
+              mountPath: /var/www
+      #        - name: php-fpm-exporter
+      #          image: hipages/php-fpm_exporter:1.1.0
+      #          imagePullPolicy: IfNotPresent
+      #          args: [server]
+      #          env:
+      #            - name: PHP_FPM_SCRAPE_URI
+      #              value: tcp://127.0.0.1:9000/status
+      volumes:
+        - name: keychain
+          secret:
+            secretName: keychain
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+        - name: shared
+          emptyDir: {}
+

@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: services
+commonLabels:
+  app.kubernetes.io/part-of: prometheus
+resources:
+  - service-account.yaml
+  - cluster-role.yaml
+  - cluster-role-binding.yaml
+  - deployment.yaml
+  - service.yaml
+  - pvc.yaml
+images:
+  - name: prom/prometheus
+    newTag: v2.17.2
+configMapGenerator:
+  - name: prometheus-config
+    files:
+      - config/prometheus.yaml

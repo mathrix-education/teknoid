@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: production
+secretGenerator:
+  - name: railgun-env
+    behavior: merge
+    envs: [.env]
+  - name: keychain
+    files:
+      - keychain/login.json
+      - keychain/reset.json
+resources:
+  - ../../base
+  - service-account.yaml
+patchesStrategicMerge:
+  - ingress.yaml
+  - server.deployment.yaml
+  - worker.deployment.yaml
