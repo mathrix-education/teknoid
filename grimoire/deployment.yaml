@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstack-server
+  labels:
+    app.kubernetes.io/name: bookstack-server
+    app.kubernetes.io/component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bookstack-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bookstack-server
+    spec:
+      volumes:
+        - name: public-uploads
+          persistentVolumeClaim:
+            claimName: public-uploads
+        - name: storage-uploads
+          persistentVolumeClaim:
+            claimName: storage-uploads
+      containers:
+        - name: server
+          image: solidnerd/bookstack:0.29.1
+          envFrom:
+            - configMapRef:
+                name: grimoire-env
+          volumeMounts:
+            - name: public-uploads
+              mountPath: /var/www/bookstack/public/uploads
+            - name: storage-uploads
+              mountPath: /var/www/bookstack/storage/uploads
