@@ -21,6 +21,9 @@ spec:
         app.kubernetes.io/component: server
     spec:
       volumes:
+        - name: config
+          secret:
+            secretName: grafana-config
         - name: data
           persistentVolumeClaim:
             claimName: grafana-data
@@ -40,6 +43,9 @@ spec:
           securityContext:
             runAsUser: 0
           volumeMounts:
+            - mountPath: /etc/grafana/grafana.ini
+              name: config
+              subPath: grafana.ini
             - mountPath: /var/lib/grafana
               name: data
       restartPolicy: Always
