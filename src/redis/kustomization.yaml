@@ -1,7 +1,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: services
+commonLabels:
+  app.kubernetes.io/part-of: redis
+configMapGenerator:
+  - name: redis-config
+    files:
+      - config/redis.conf
 resources:
-  - redis.deployment.yaml
-  - redis.pvc.yaml
-  - redis.service.yaml
+  - pvc.yaml
+  - deployment.yaml
+  - service.yaml
+images:
+  - name: redis
+    newTag: 5.0-alpine
+  - name: oliver006/redis_exporter
+    newTag: v1.5.3-alpine
+

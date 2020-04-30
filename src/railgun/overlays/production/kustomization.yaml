@@ -16,3 +16,6 @@ patchesStrategicMerge:
   - ingress.yaml
   - server.deployment.yaml
   - worker.deployment.yaml
+images:
+  - name: eu.gcr.io/mathrix-education/education-api
+    newTag: latest-production

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: services
+  labels:
+    app.kubernetes.io/name: redis-server
+    app.kubernetes.io/component: deployment
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis-server
+      annotations:
+        prometheus.io/port: '9121'
+        prometheus.io/scrape: 'true'
+    spec:
+      volumes:
+        - name: redis-config
+          configMap:
+            name: redis-config
+        - name: redis-volume
+          persistentVolumeClaim:
+            claimName: redis-pvc
+      containers:
+        - name: redis
+          image: redis
+          args: ['--appendonly', 'yes']
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+          resources:
+            requests:
+              memory: 128Mi
+            limits:
+              memory: 128Mi
+          volumeMounts:
+            - name: redis-config
+              mountPath: /usr/local/etc/redis/redis.conf
+              subPath: redis.conf
+            - name: redis-volume
+              mountPath: /data
+        - name: redis-exporter
+          image: oliver006/redis_exporter
+          ports:
+            - containerPort: 9121

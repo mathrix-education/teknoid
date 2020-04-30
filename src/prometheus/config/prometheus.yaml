@@ -1,12 +1,16 @@
 global:
   scrape_interval: 10s
 scrape_configs:
-  - job_name: 'ingress-nginx-endpoints'
+  - job_name: kubernetes
     kubernetes_sd_configs:
       - role: pod
         namespaces:
           names:
             - ingress-nginx
+            - services
+            - edge
+            - stage
+            - production
     relabel_configs:
       - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
         action: keep
@@ -27,7 +31,3 @@ scrape_configs:
       - source_labels: [__meta_kubernetes_service_name]
         regex: prometheus-server
         action: drop
-  - job_name: 'api-scrap'
-    scheme: http
-    static_configs:
-      - targets: ['railgun.edge.svc.cluster.local:8080']

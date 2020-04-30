@@ -15,8 +15,20 @@ spec:
       labels:
         app.kubernetes.io/name: railgun-server
         app.kubernetes.io/component: server
+      annotations:
+        prometheus.io/port: '9253'
+        prometheus.io/scrape: 'true'
     spec:
       serviceAccountName: railgun
+      volumes:
+        - name: keychain
+          secret:
+            secretName: keychain
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+        - name: shared
+          emptyDir: {}
       containers:
         - name: server
           image: eu.gcr.io/mathrix-education/education-api:latest-master
@@ -34,7 +46,7 @@ spec:
               exec:
                 command: ["/bin/sh", "-c", "cp -r /var/www/* /var/shared"]
         - name: nginx
-          image: nginx:mainline-alpine
+          image: nginx
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: nginx-conf
@@ -42,20 +54,10 @@ spec:
               subPath: nginx.conf
             - name: shared
               mountPath: /var/www
-      #        - name: php-fpm-exporter
-      #          image: hipages/php-fpm_exporter:1.1.0
-      #          imagePullPolicy: IfNotPresent
-      #          args: [server]
-      #          env:
-      #            - name: PHP_FPM_SCRAPE_URI
-      #              value: tcp://127.0.0.1:9000/status
-      volumes:
-        - name: keychain
-          secret:
-            secretName: keychain
-        - name: nginx-conf
-          configMap:
-            name: nginx-conf
-        - name: shared
-          emptyDir: {}
-
+        - name: php-fpm-exporter
+          image: hipages/php-fpm_exporter
+          imagePullPolicy: IfNotPresent
+          args: [server]
+          env:
+            - name: PHP_FPM_SCRAPE_URI
+              value: tcp://127.0.0.1:9000/status

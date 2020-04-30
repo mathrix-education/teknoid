@@ -29,6 +29,7 @@ mysql) single "mysql" ;;
 grafana) single "grafana" ;;
 prometheus) single "prometheus" ;;
 railgun) railgun "${2:-edge}" ;;
+redis) single "redis" ;;
 
 *)
   usage

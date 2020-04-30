@@ -2,10 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: redis
-  namespace: services
 spec:
   selector:
-    app: redis
+    app.kubernetes.io/name: redis-server
   ports:
     - port: 6379
       targetPort: 6379
