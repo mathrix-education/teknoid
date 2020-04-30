@@ -31,7 +31,7 @@ spec:
           emptyDir: {}
       containers:
         - name: server
-          image: eu.gcr.io/mathrix-education/education-api:latest-master
+          image: eu.gcr.io/mathrix-education/education-api
           imagePullPolicy: Always
           envFrom:
             - secretRef:

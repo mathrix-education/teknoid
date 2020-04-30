@@ -16,4 +16,4 @@ patchesStrategicMerge:
   - ingress.yaml
 images:
   - name: eu.gcr.io/mathrix-education/education-api
-    newTag: latest-master
+    newTag: latest-edge
