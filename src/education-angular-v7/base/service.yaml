@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: education-angular-v7
+  labels:
+    app.kubernetes.io/name: education-angular-v7
+    app.kubernetes.io/component: service
+spec:
+  selector:
+    app.kubernetes.io/name: education-angular-v7
+    app.kubernetes.io/component: server
+  ports:
+    - name: http
+      port: 4000
+      targetPort: 4000

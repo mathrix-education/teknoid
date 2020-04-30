@@ -3,13 +3,19 @@ function usage() {
   echo "Usage: ./scripts/apply.sh [application] [overlay]"
 }
 
+function apply() {
+  APP=$1
+  # Workaround for some secrets which seems to not be read by kubectl
+  kubectl apply -f "/tmp/$APP.yaml" --prune -l "app.kubernetes.io/part-of=$APP"
+  kubectl apply -f "/tmp/$APP.yaml"
+  rm /tmp/$APP.yaml
+}
+
 function single() {
   APP=$1
   echo "Updating $APP"
   kustomize build src/$APP/ >/tmp/$APP.yaml
-  kubectl apply -f "/tmp/$APP.yaml" --prune -l "app.kubernetes.io/part-of=$APP"
-  kubectl apply -f "/tmp/$APP.yaml"
-  rm /tmp/$APP.yaml
+  apply "$APP"
 }
 
 function multi() {
@@ -20,12 +26,8 @@ function multi() {
     single "$APP"
   else
     echo "Updating $APP ($ENV environment)"
-    kustomize build src/$APP/overlays/$ENV/ >/tmp/railgun.yaml
-
-    # Workaround for some secrets which seems to not be read by kubectl
-    kubectl apply -f /tmp/railgun.yaml --prune -l "app.kubernetes.io/part-of=$APP"
-    kubectl apply -f /tmp/railgun.yaml
-    rm /tmp/railgun.yaml
+    kustomize build src/$APP/overlays/$ENV/ >/tmp/$APP.yaml
+    apply "$APP"
   fi
 }
 
@@ -33,6 +35,7 @@ case $1 in
 -h) usage ;;
 --help) usage ;;
 
+education-angular-v7) multi "education-angular-v7" "${2:-all}" ;;
 mysql) single "mysql" ;;
 grafana) single "grafana" ;;
 prometheus) single "prometheus" ;;

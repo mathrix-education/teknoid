@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: education-angular-v7
+spec:
+  rules:
+    - host: stage.mathrix.tech
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: education-angular-v7
+              servicePort: 4000
+  tls:
+    - hosts:
+        - stage.mathrix.tech
+      secretName: stage.mathrix.tech-secret

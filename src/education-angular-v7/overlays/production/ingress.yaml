@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: education-angular-v7
+  annotations:
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: htpasswd
+spec:
+  rules:
+    - host: production.mathrix.tech
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: education-angular-v7
+              servicePort: 4000
+  tls:
+    - hosts:
+        - production.mathrix.tech
+      secretName: production.mathrix.tech-secret
