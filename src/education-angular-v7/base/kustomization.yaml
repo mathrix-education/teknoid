@@ -3,6 +3,9 @@ kind: Kustomization
 commonLabels:
   app.kubernetes.io/part-of: education-angular-v7
   app.kubernetes.io/managed-by: kustomize
+configMapGenerator:
+  - name: education-angular-v7-env
+    envs: [config/.env]
 resources:
   - deployment.yaml
   - ingress.yaml
