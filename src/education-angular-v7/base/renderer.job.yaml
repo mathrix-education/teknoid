@@ -1,0 +1,31 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: education-angular-v7-renderer
+spec:
+  schedule: '0 * * * *'
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 1800 # 20 minutes maximum
+      template:
+        spec:
+          containers:
+            - name: renderer
+              image: eu.gcr.io/mathrix-education/education-angular-v7
+              imagePullPolicy: Always
+#              resources:
+#                requests:
+#                  cpu: 50m
+#                  memory: 512Mi
+#                limits:
+#                  cpu: 100m
+#                  memory: 512Mi
+              command:
+                - node
+                - /var/www/dist/server/main
+                - render
+              envFrom:
+                - configMapRef:
+                    name: education-angular-v7-env
+          restartPolicy: Never

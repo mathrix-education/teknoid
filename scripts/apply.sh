@@ -38,6 +38,7 @@ case $1 in
 education-angular-v7) multi "education-angular-v7" "${2:-all}" ;;
 mysql) single "mysql" ;;
 grafana) single "grafana" ;;
+grimoire) single "grimoire" ;;
 prometheus) single "prometheus" ;;
 railgun) multi "railgun" "${2:-all}" ;;
 redis) single "redis" ;;

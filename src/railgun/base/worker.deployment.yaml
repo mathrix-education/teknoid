@@ -17,10 +17,17 @@ spec:
     spec:
       serviceAccountName: railgun
       containers:
-        - args: [worker]
+        - name: worker
           image: eu.gcr.io/mathrix-education/education-api:latest-v7
           imagePullPolicy: IfNotPresent
-          name: worker
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 30m
+              memory: 256Mi
+          args: [worker]
           envFrom:
             - secretRef:
                 name: railgun-env

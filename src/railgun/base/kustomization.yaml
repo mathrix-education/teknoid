@@ -4,12 +4,15 @@ commonLabels:
   app.kubernetes.io/part-of: railgun
   app.kubernetes.io/managed-by: kustomize
 configMapGenerator:
+  - name: www-conf
+    files:
+      - config/www.conf
   - name: nginx-conf
     files:
-      - nginx.conf
+      - config/nginx.conf
 secretGenerator:
   - name: railgun-env
-    envs: [.env]
+    envs: [secrets/.env]
 resources:
   - ingress.yaml
   - server.deployment.yaml

@@ -7,6 +7,10 @@ metadata:
     app.kubernetes.io/component: server
 spec:
   replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: bookstack-server
@@ -25,9 +29,18 @@ spec:
       containers:
         - name: server
           image: solidnerd/bookstack:0.29.1
+#          resources:
+#            requests:
+#              cpu: 100m
+#              memory: 128Mi
+#            limits:
+#              cpu: 100m
+#              memory: 128Mi
           envFrom:
             - configMapRef:
                 name: grimoire-env
+          ports:
+            - containerPort: 8080
           volumeMounts:
             - name: public-uploads
               mountPath: /var/www/bookstack/public/uploads

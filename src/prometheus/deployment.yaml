@@ -7,6 +7,10 @@ metadata:
     app.kubernetes.io/component: deployment
 spec:
   replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: prometheus-server

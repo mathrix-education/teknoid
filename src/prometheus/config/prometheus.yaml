@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 10s
+  scrape_interval: 5s
 scrape_configs:
   - job_name: kubernetes
     kubernetes_sd_configs:
@@ -9,7 +9,6 @@ scrape_configs:
             - ingress-nginx
             - services
             - edge
-            - stage
             - production
     relabel_configs:
       - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
@@ -31,3 +30,7 @@ scrape_configs:
       - source_labels: [__meta_kubernetes_service_name]
         regex: prometheus-server
         action: drop
+      - source_labels: [__meta_kubernetes_pod_name]
+        regex: (.*redis.*)
+        target_label: instance
+        replacement: redis.services.svc.cluster.local

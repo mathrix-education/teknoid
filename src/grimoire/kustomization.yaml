@@ -3,9 +3,10 @@ kind: Kustomization
 namespace: grimoire
 commonLabels:
   app.kubernetes.io/part-of: grimoire
+  app.kubernetes.io/managed-by: kustomize
 configMapGenerator:
   - name: grimoire-env
-    env: .env
+    envs: [.env]
 resources:
   - namespace.yaml
   - pvc.yaml

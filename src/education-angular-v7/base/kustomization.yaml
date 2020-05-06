@@ -8,5 +8,6 @@ configMapGenerator:
     envs: [config/.env]
 resources:
   - deployment.yaml
-  - ingress.yaml
   - service.yaml
+  - ingress.yaml
+  #- renderer.job.yaml

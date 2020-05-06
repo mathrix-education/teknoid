@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: redis
+subsets:
+  - addresses:
+      - ip: 10.109.125.83
+    ports:
+      - port: 6379
