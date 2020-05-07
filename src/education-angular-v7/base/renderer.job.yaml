@@ -5,22 +5,23 @@ metadata:
 spec:
   schedule: '0 * * * *'
   concurrencyPolicy: Forbid
+  suspend: true
   jobTemplate:
     spec:
-      activeDeadlineSeconds: 1800 # 20 minutes maximum
+      activeDeadlineSeconds: 1800 # 30 minutes maximum
       template:
         spec:
           containers:
             - name: renderer
               image: eu.gcr.io/mathrix-education/education-angular-v7
               imagePullPolicy: Always
-#              resources:
-#                requests:
-#                  cpu: 50m
-#                  memory: 512Mi
-#                limits:
-#                  cpu: 100m
-#                  memory: 512Mi
+              resources:
+                requests:
+                  cpu: 1000m
+                  memory: 512Mi
+                limits:
+                  cpu: 1000m
+                  memory: 512Mi
               command:
                 - node
                 - /var/www/dist/server/main
@@ -28,4 +29,14 @@ spec:
               envFrom:
                 - configMapRef:
                     name: education-angular-v7-env
-          restartPolicy: Never
+          restartPolicy: OnFailure
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 1
+                  preference:
+                    matchExpressions:
+                      - key: cloud.google.com/gke-preemptible
+                        operator: In
+                        values:
+                          - 'true'

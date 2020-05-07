@@ -10,4 +10,4 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
-  #- renderer.job.yaml
+  - renderer.job.yaml

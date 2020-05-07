@@ -3,7 +3,13 @@ kind: Kustomization
 namespace: services
 commonLabels:
   app.kubernetes.io/part-of: redis
+configMapGenerator:
+  - name: redis-conf
+    files:
+      - config/redis.conf
 resources:
   - service.yaml
-  - endpoints.yaml
-  - exporter.deployment.yaml
+  - deployment.yaml
+images:
+  - name: redis
+    newTag: 6.0-alpine
