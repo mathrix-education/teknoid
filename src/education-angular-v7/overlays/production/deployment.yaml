@@ -3,4 +3,4 @@ kind: Deployment
 metadata:
   name: education-angular-v7
 spec:
-  replicas: 2
+  replicas: 4

@@ -46,10 +46,10 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 300m
+              memory: 256Mi
             limits:
-              cpu: 50m
+              cpu: 300m
               memory: 256Mi
           envFrom:
             - secretRef:
@@ -91,20 +91,20 @@ spec:
               subPath: nginx.conf
             - name: shared
               mountPath: /var/www
-        - name: php-fpm-exporter
-          image: hipages/php-fpm_exporter
-          imagePullPolicy: IfNotPresent
-          resources:
-            requests:
-              cpu: 10m
-              memory: 32Mi
-            limits:
-              cpu: 20m
-              memory: 64Mi
-          args: [server]
-          env:
-            - name: PHP_FPM_SCRAPE_URI
-              value: tcp://127.0.0.1:9000/status
+#        - name: php-fpm-exporter
+#          image: hipages/php-fpm_exporter
+#          imagePullPolicy: IfNotPresent
+#          resources:
+#            requests:
+#              cpu: 10m
+#              memory: 32Mi
+#            limits:
+#              cpu: 20m
+#              memory: 64Mi
+#          args: [server]
+#          env:
+#            - name: PHP_FPM_SCRAPE_URI
+#              value: tcp://127.0.0.1:9000/status
       volumes:
         - name: keychain
           secret:

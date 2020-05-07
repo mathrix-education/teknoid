@@ -16,4 +16,4 @@ patchesStrategicMerge:
   - deployment.yaml
 images:
   - name: eu.gcr.io/mathrix-education/education-angular-v7
-    newTag: latest-production
+    newTag: latest-edge

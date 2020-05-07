@@ -16,6 +16,7 @@ resources:
   - ../../base
 patchesStrategicMerge:
   - ingress.yaml
+  - deployment.yaml
 images:
   - name: eu.gcr.io/mathrix-education/education-angular-v7
     newTag: latest-edge
