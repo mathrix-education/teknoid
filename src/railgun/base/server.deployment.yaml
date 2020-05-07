@@ -6,13 +6,13 @@ metadata:
     app.kubernetes.io/name: railgun-server
     app.kubernetes.io/component: server
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: railgun-server
   strategy:
     rollingUpdate:
-      maxUnavailable: 2
+      maxUnavailable: 0
       maxSurge: 1
   template:
     metadata:
@@ -24,18 +24,22 @@ spec:
         prometheus.io/scrape: 'true'
     spec:
       serviceAccountName: railgun
-      volumes:
-        - name: keychain
-          secret:
-            secretName: keychain
-        - name: www-conf
-          configMap:
-            name: www-conf
-        - name: nginx-conf
-          configMap:
-            name: nginx-conf
-        - name: shared
-          emptyDir: {}
+      tolerations:
+        - key: fault-tolerant
+          operator: Equal
+          value: 'true'
+          effect: NoSchedule
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values: [railgun-server]
+                topologyKey: "kubernetes.io/hostname"
       containers:
         - name: server
           image: eu.gcr.io/mathrix-education/education-api
@@ -65,6 +69,15 @@ spec:
         - name: nginx
           image: nginx
           imagePullPolicy: IfNotPresent
+          #          livenessProbe:
+          #            httpGet:
+          #              path: /
+          #              port: 8080
+          #              httpHeaders:
+          #                - name: User-Agent
+          #                  value: Kubernetes Liveness Probe
+          #            initialDelaySeconds: 3
+          #            periodSeconds: 1
           resources:
             requests:
               cpu: 10m
@@ -92,3 +105,15 @@ spec:
           env:
             - name: PHP_FPM_SCRAPE_URI
               value: tcp://127.0.0.1:9000/status
+      volumes:
+        - name: keychain
+          secret:
+            secretName: keychain
+        - name: www-conf
+          configMap:
+            name: www-conf
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+        - name: shared
+          emptyDir: {}

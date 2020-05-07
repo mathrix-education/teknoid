@@ -14,6 +14,7 @@ resources:
   - service-account.yaml
 patchesStrategicMerge:
   - ingress.yaml
+  - server.affinity.yaml
 images:
   - name: eu.gcr.io/mathrix-education/education-api
     newTag: latest-edge

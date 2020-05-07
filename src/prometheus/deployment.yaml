@@ -20,13 +20,11 @@ spec:
         app.kubernetes.io/name: prometheus-server
     spec:
       serviceAccountName: prometheus
-      volumes:
-        - name: config
-          configMap:
-            name: prometheus-config
-        - name: data
-          persistentVolumeClaim:
-            claimName: prometheus-pvc
+      tolerations:
+        - key: fault-tolerant
+          operator: Equal
+          value: 'true'
+          effect: NoSchedule
       containers:
         - name: prometheus
           image: prom/prometheus
@@ -42,3 +40,10 @@ spec:
               mountPath: /etc/prometheus/
             - name: data
               mountPath: /prometheus/
+      volumes:
+        - name: config
+          configMap:
+            name: prometheus-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: prometheus-pvc

@@ -17,16 +17,32 @@ spec:
         app.kubernetes.io/name: education-angular-v7
         app.kubernetes.io/component: server
     spec:
+      tolerations:
+        - key: fault-tolerant
+          operator: Equal
+          value: 'true'
+          effect: NoSchedule
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values: [education-angular-v7]
+                topologyKey: "kubernetes.io/hostname"
       containers:
         - name: server
           image: eu.gcr.io/mathrix-education/education-angular-v7
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 10m
+              cpu: 100m
               memory: 128Mi
             limits:
-              cpu: 30m
+              cpu: 100m
               memory: 128Mi
           envFrom:
             - configMapRef:

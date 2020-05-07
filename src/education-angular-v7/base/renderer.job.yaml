@@ -11,17 +11,22 @@ spec:
       activeDeadlineSeconds: 1800 # 30 minutes maximum
       template:
         spec:
+          tolerations:
+            - key: fault-tolerant
+              operator: Equal
+              value: 'true'
+              effect: NoSchedule
           containers:
             - name: renderer
               image: eu.gcr.io/mathrix-education/education-angular-v7
               imagePullPolicy: Always
               resources:
                 requests:
-                  cpu: 1000m
-                  memory: 512Mi
+                  cpu: '1'
+                  memory: 768Mi
                 limits:
-                  cpu: 1000m
-                  memory: 512Mi
+                  cpu: '1'
+                  memory: 768Mi
               command:
                 - node
                 - /var/www/dist/server/main
@@ -30,13 +35,3 @@ spec:
                 - configMapRef:
                     name: education-angular-v7-env
           restartPolicy: OnFailure
-          affinity:
-            nodeAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 1
-                  preference:
-                    matchExpressions:
-                      - key: cloud.google.com/gke-preemptible
-                        operator: In
-                        values:
-                          - 'true'

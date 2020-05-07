@@ -19,13 +19,11 @@ spec:
       labels:
         app.kubernetes.io/name: bookstack-server
     spec:
-      volumes:
-        - name: public-uploads
-          persistentVolumeClaim:
-            claimName: public-uploads
-        - name: storage-uploads
-          persistentVolumeClaim:
-            claimName: storage-uploads
+      tolerations:
+        - key: fault-tolerant
+          operator: Equal
+          value: 'true'
+          effect: NoSchedule
       containers:
         - name: server
           image: solidnerd/bookstack:0.29.1
@@ -46,3 +44,10 @@ spec:
               mountPath: /var/www/bookstack/public/uploads
             - name: storage-uploads
               mountPath: /var/www/bookstack/storage/uploads
+      volumes:
+        - name: public-uploads
+          persistentVolumeClaim:
+            claimName: public-uploads
+        - name: storage-uploads
+          persistentVolumeClaim:
+            claimName: storage-uploads

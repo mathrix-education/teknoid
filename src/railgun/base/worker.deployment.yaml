@@ -16,9 +16,16 @@ spec:
         app.kubernetes.io/component: worker
     spec:
       serviceAccountName: railgun
+      tolerations:
+        - key: fault-tolerant
+          operator: Equal
+          value: 'true'
+          effect: NoSchedule
+      nodeSelector:
+        cloud.google.com/gke-preemptible: 'true' # Workers are only allowed to run on fault-tolerant nodes
       containers:
         - name: worker
-          image: eu.gcr.io/mathrix-education/education-api:latest-v7
+          image: eu.gcr.io/mathrix-education/education-api
           imagePullPolicy: IfNotPresent
           resources:
             requests:
