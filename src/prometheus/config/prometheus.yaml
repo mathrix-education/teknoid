@@ -6,7 +6,7 @@ scrape_configs:
       - role: pod
         namespaces:
           names:
-            - ingress-nginx
+            - nginx-ingress
             - services
             - edge
             - production

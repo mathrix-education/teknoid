@@ -1,12 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: ingress-nginx
+namespace: services
+commonLabels:
+  app.kubernetes.io/part-of: nginx-ingress
+  app.kubernetes.io/managed-by: kustomize
 resources:
   - cluster-role.yaml
   - cluster-role-binding.yaml
   - deployment.yaml
   - limit-range.yaml
-  - namespace.yaml
   - nginx.configmap.yaml
   - role.yaml
   - role-binding.yaml
@@ -14,3 +16,6 @@ resources:
   - service-account.yaml
   - tcp-services.configmap.yaml
   - udp-services.configmap.yaml
+images:
+  - name: quay.io/kubernetes-ingress-controller/nginx-ingress-controller
+    newTag: 0.32.0

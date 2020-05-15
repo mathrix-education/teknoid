@@ -3,8 +3,7 @@ kind: ClusterRole
 metadata:
   name: nginx-ingress-clusterrole
   labels:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/name: nginx-ingress
 rules:
   - apiGroups:
       - ""

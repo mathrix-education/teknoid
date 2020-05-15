@@ -2,11 +2,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: nginx-configuration
-  namespace: ingress-nginx
   labels:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/part-of: ingress-nginx
-# Customized
+    app.kubernetes.io/name: nginx-ingress
 data:
   log-format-escape-json: 'true'
   log-format-upstream: '{"timestamp":"$time_iso8601","httpRequest":{"requestMethod":"$request_method","requestUrl":"$scheme://$host$request_uri$is_args$args","requestSize":"$request_length","status":$status,"responseSize":"$upstream_response_length","userAgent":"$http_user_agent","remoteIp":"$remote_addr","serverIp":"$server_addr","referer":"$http_referer","latency":"${upstream_response_time}s","protocol":"$server_protocol"},"jsonPayload":{"requestID":"$req_id","upstreamAddr":"$upstream_addr","proxyUpstreamName":"$proxy_upstream_name","proxyAlternativeUpstreamName":"$proxy_alternative_upstream_name","upstreamStatus":"$upstream_status"}}'

@@ -37,6 +37,7 @@ case $1 in
 
 education-angular-v7) multi "education-angular-v7" "${2:-all}" ;;
 mysql) single "mysql" ;;
+nginx-ingress) single "nginx-ingress" ;;
 grafana) single "grafana" ;;
 grimoire) single "grimoire" ;;
 prometheus) single "prometheus" ;;
