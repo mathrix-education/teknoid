@@ -61,6 +61,12 @@ spec:
             postStart:
               exec:
                 command: ["/bin/sh", "-c", "cp -r /var/www/* /var/shared"]
+          livenessProbe:
+            exec:
+              command:
+                - php-fpm-healthcheck
+            initialDelaySeconds: 10
+            periodSeconds: 1
           readinessProbe:
             exec:
               command:
@@ -106,6 +112,7 @@ spec:
       #          env:
       #            - name: PHP_FPM_SCRAPE_URI
       #              value: tcp://127.0.0.1:9000/status
+      terminationGracePeriodSeconds: 10
       volumes:
         - name: keychain
           secret:
