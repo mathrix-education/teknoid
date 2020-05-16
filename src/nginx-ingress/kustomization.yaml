@@ -8,7 +8,6 @@ resources:
   - cluster-role.yaml
   - cluster-role-binding.yaml
   - deployment.yaml
-  - limit-range.yaml
   - nginx.configmap.yaml
   - role.yaml
   - role-binding.yaml

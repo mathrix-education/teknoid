@@ -6,3 +6,7 @@ commonLabels:
 resources:
   - service.yaml
   - endpoints.yaml
+  - exporter.deployment.yaml
+images:
+  - name: oliver006/redis_exporter
+    newTag: alpine

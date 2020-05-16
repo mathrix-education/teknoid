@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-exporter
+  labels:
+    app.kubernetes.io/name: redis-exporter
+    app.kubernetes.io/component: exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis-exporter
+      app.kubernetes.io/component: exporter
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis-exporter
+        app.kubernetes.io/component: exporter
+      annotations:
+        prometheus.io/port: '9121'
+        prometheus.io/scrape: 'true'
+    spec:
+      containers:
+        - name: redis-exporter
+          image: oliver006/redis_exporter
+          env:
+            - name: REDIS_ADDR
+              value: redis://10.221.92.35:6379
+            - name: REDIS_EXPORTER_LOG_FORMAT
+              value: json
+            - name: REDIS_EXPORTER_SET_CLIENT_NAME
+              value: 'false'
+#          resources:
+#            requests:
+#              cpu: 10m
+#              memory: 64Mi
