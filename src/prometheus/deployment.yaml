@@ -20,11 +20,6 @@ spec:
         app.kubernetes.io/name: prometheus-server
     spec:
       serviceAccountName: prometheus
-      tolerations:
-        - key: fault-tolerant
-          operator: Equal
-          value: 'true'
-          effect: NoSchedule
       containers:
         - name: prometheus
           image: prom/prometheus

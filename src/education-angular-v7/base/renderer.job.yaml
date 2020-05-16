@@ -11,11 +11,6 @@ spec:
       activeDeadlineSeconds: 1800 # 30 minutes maximum
       template:
         spec:
-          tolerations:
-            - key: fault-tolerant
-              operator: Equal
-              value: 'true'
-              effect: NoSchedule
           containers:
             - name: renderer
               image: eu.gcr.io/mathrix-education/education-angular-v7

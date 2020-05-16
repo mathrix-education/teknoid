@@ -19,11 +19,6 @@ spec:
       labels:
         app.kubernetes.io/name: bookstack-server
     spec:
-      tolerations:
-        - key: fault-tolerant
-          operator: Equal
-          value: 'true'
-          effect: NoSchedule
       containers:
         - name: server
           image: solidnerd/bookstack:0.29.1

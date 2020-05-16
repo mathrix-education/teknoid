@@ -3,13 +3,17 @@ kind: Kustomization
 namespace: services
 commonLabels:
   app.kubernetes.io/part-of: redis
+  app.kubernetes.io/managed-by: kustomize
 configMapGenerator:
   - name: redis-conf
     files:
       - config/redis.conf
+      - config/sentinel.conf
 resources:
   - service.yaml
-  - deployment.yaml
+  - statefulset.yaml
 images:
   - name: redis
     newTag: 6.0-alpine
+  - name: oliver006/redis_exporter
+    newTag: alpine

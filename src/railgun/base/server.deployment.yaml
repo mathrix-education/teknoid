@@ -24,11 +24,6 @@ spec:
         prometheus.io/scrape: 'true'
     spec:
       serviceAccountName: railgun
-      tolerations:
-        - key: fault-tolerant
-          operator: Equal
-          value: 'true'
-          effect: NoSchedule
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
