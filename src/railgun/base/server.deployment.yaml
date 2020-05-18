@@ -24,6 +24,7 @@ spec:
         prometheus.io/scrape: 'true'
     spec:
       serviceAccountName: railgun
+      terminationGracePeriodSeconds: 10
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -78,12 +79,11 @@ spec:
           imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
-              path: /
+              path: /healthz?checks=database,redis
               port: 8080
               httpHeaders:
                 - name: User-Agent
                   value: Kubernetes Liveness Probe
-            initialDelaySeconds: 3
             periodSeconds: 1
           resources:
             requests:
@@ -112,7 +112,6 @@ spec:
       #          env:
       #            - name: PHP_FPM_SCRAPE_URI
       #              value: tcp://127.0.0.1:9000/status
-      terminationGracePeriodSeconds: 10
       volumes:
         - name: keychain
           secret:
