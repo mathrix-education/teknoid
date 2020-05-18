@@ -34,3 +34,9 @@ scrape_configs:
         regex: (.*redis.*)
         target_label: instance
         replacement: redis.services.svc.cluster.local
+  - job_name: railgun-edge
+    static_configs:
+      - targets:
+          - railgun.edge.svc.cluster.local:8080
+        labels:
+          environment: edge
