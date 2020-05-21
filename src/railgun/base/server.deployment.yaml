@@ -12,16 +12,13 @@ spec:
       app.kubernetes.io/name: railgun-server
   strategy:
     rollingUpdate:
-      maxUnavailable: 0
+      maxUnavailable: 1
       maxSurge: 1
   template:
     metadata:
       labels:
         app.kubernetes.io/name: railgun-server
         app.kubernetes.io/component: server
-      annotations:
-        prometheus.io/port: '9253'
-        prometheus.io/scrape: 'true'
     spec:
       serviceAccountName: railgun
       terminationGracePeriodSeconds: 10
@@ -40,87 +37,38 @@ spec:
         - name: server
           image: eu.gcr.io/mathrix-education/education-api
           imagePullPolicy: Always
-          resources:
-            requests:
-              cpu: 300m
-              memory: 256Mi
-            limits:
-              cpu: 300m
-              memory: 256Mi
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: keychain
+              mountPath: /var/www/storage/keychain
+              readOnly: true
           envFrom:
             - secretRef:
                 name: railgun-env
-          volumeMounts:
-            - name: www-conf
-              mountPath: /usr/local/etc/php-fpm.d/www.conf
-              subPath: www.conf
-            - name: keychain
-              mountPath: /var/www/storage/keychain
-            - name: shared
-              mountPath: /var/shared
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/bin/sh", "-c", "cp -r /var/www/* /var/shared"]
-          livenessProbe:
-            exec:
-              command:
-                - php-fpm-healthcheck
-            initialDelaySeconds: 10
-            periodSeconds: 1
-          readinessProbe:
-            exec:
-              command:
-                - php-fpm-healthcheck
-            initialDelaySeconds: 3
-            periodSeconds: 1
-        - name: nginx
-          image: nginx
-          imagePullPolicy: IfNotPresent
-          readinessProbe:
-            httpGet:
-              path: /healthz?checks=database,redis
-              port: 8080
-              httpHeaders:
-                - name: User-Agent
-                  value: Kubernetes Liveness Probe
-            periodSeconds: 1
+          env:
+            - name: PHPPM_WORKERS
+              value: '4'
+          args: [server, start]
           resources:
             requests:
-              cpu: 10m
-              memory: 128Mi
-            limits:
-              cpu: 30m
+              cpu: 250m
               memory: 256Mi
-          volumeMounts:
-            - name: nginx-conf
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
-            - name: shared
-              mountPath: /var/www
-      #        - name: php-fpm-exporter
-      #          image: hipages/php-fpm_exporter
-      #          imagePullPolicy: IfNotPresent
-      #          resources:
-      #            requests:
-      #              cpu: 10m
-      #              memory: 32Mi
-      #            limits:
-      #              cpu: 20m
-      #              memory: 64Mi
-      #          args: [server]
-      #          env:
-      #            - name: PHP_FPM_SCRAPE_URI
-      #              value: tcp://127.0.0.1:9000/status
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            exec:
+              command: [/var/www/artisan, entrypoint, server, status]
+            initialDelaySeconds: 3
+            periodSeconds: 1
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: '/healthz?checks=database,redis'
+            initialDelaySeconds: 5
+            periodSeconds: 10
       volumes:
         - name: keychain
           secret:
             secretName: keychain
-        - name: www-conf
-          configMap:
-            name: www-conf
-        - name: nginx-conf
-          configMap:
-            name: nginx-conf
-        - name: shared
-          emptyDir: {}

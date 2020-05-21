@@ -3,13 +3,6 @@ kind: Kustomization
 commonLabels:
   app.kubernetes.io/part-of: railgun
   app.kubernetes.io/managed-by: kustomize
-configMapGenerator:
-  - name: www-conf
-    files:
-      - config/www.conf
-  - name: nginx-conf
-    files:
-      - config/nginx.conf
 secretGenerator:
   - name: railgun-env
     envs: [secrets/.env]
@@ -18,8 +11,3 @@ resources:
   - server.deployment.yaml
   - server.service.yaml
   - worker.deployment.yaml
-images:
-  - name: nginx
-    newTag: 1.17-alpine
-  - name: hipages/php-fpm_exporter
-    newTag: 1.1.0

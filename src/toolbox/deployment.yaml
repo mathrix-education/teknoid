@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toolbox
+  labels:
+    app.kubernetes.io/name: toolbox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: toolbox
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: toolbox
+    spec:
+      containers:
+        - name: alpine
+          image: alpine:3
+          args: [tail, -f, /dev/null]
+#          lifecycle:
+#            postStart:
+#              exec:
+#                command:
+#                  - /bin/ash
+#                  - -c
+#                  - |
+#                    apk add --no-cache redis-cli curl

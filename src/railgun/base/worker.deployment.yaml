@@ -27,7 +27,7 @@ spec:
             limits:
               cpu: 30m
               memory: 256Mi
-          args: [worker]
+          args: [worker, start]
           envFrom:
             - secretRef:
                 name: railgun-env

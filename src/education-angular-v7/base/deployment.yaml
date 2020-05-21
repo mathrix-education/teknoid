@@ -35,19 +35,22 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 128Mi
+              memory: 256Mi
 #            limits:
 #              cpu: 100m
 #              memory: 128Mi
           envFrom:
             - configMapRef:
                 name: education-angular-v7-env
+          env:
+            - name: NODE_OPTIONS
+              value: --max-old-space-size=8192
           ports:
             - containerPort: 4000
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 4000
-              httpHeaders:
-                - name: User-Agent
-                  value: Kubernetes Liveness Probe
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: 4000
+#              httpHeaders:
+#                - name: User-Agent
+#                  value: Kubernetes Liveness Probe

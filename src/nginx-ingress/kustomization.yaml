@@ -18,3 +18,5 @@ resources:
 images:
   - name: quay.io/kubernetes-ingress-controller/nginx-ingress-controller
     newTag: 0.32.0
+  - name: bitnami/nginx-ingress-controller
+    newTag: 0.32.0

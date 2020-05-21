@@ -4,17 +4,16 @@ namespace: edge
 secretGenerator:
   - name: railgun-env
     behavior: merge
-    envs: [.env]
+    envs: [secrets/.env]
   - name: keychain
     files:
-      - keychain/login.json
-      - keychain/reset.json
+      - secrets/login.json
+      - secrets/reset.json
 resources:
   - ../../base
   - service-account.yaml
 patchesStrategicMerge:
   - ingress.yaml
-  - server.affinity.yaml
   - server.replicas.yaml
 images:
   - name: eu.gcr.io/mathrix-education/education-api

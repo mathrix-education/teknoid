@@ -40,3 +40,9 @@ scrape_configs:
           - railgun.edge.svc.cluster.local:8080
         labels:
           environment: edge
+  - job_name: railgun-production
+    static_configs:
+      - targets:
+          - railgun.production.svc.cluster.local:8080
+        labels:
+          environment: production
