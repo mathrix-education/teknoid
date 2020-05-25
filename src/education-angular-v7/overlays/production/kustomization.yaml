@@ -5,10 +5,6 @@ configMapGenerator:
   - name: education-angular-v7-env
     behavior: merge
     envs: [config/.env]
-secretGenerator:
-  - name: htpasswd
-    files:
-      - secrets/auth
 resources:
   - ../../base
 patchesStrategicMerge:

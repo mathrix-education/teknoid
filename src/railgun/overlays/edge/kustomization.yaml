@@ -17,4 +17,4 @@ patchesStrategicMerge:
   - server.replicas.yaml
 images:
   - name: eu.gcr.io/mathrix-education/education-api
-    newTag: latest-edge
+    newTag: latest-production

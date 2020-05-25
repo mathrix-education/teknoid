@@ -3,11 +3,10 @@ kind: Ingress
 metadata:
   name: education-angular-v7
   annotations:
-    nginx.ingress.kubernetes.io/auth-type: basic
-    nginx.ingress.kubernetes.io/auth-secret: htpasswd
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
   rules:
-    - host: production.mathrix.tech
+    - host: mathrix.fr
       http:
         paths:
           - path: /
@@ -16,5 +15,6 @@ spec:
               servicePort: 4000
   tls:
     - hosts:
-        - production.mathrix.tech
-      secretName: production.mathrix.tech-secret
+        - mathrix.fr
+        - www.mathrix.fr
+      secretName: mathrix.fr-secret

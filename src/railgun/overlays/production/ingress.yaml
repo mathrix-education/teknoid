@@ -4,7 +4,7 @@ metadata:
   name: railgun
 spec:
   rules:
-    - host: production.mathrix.tech
+    - host: mathrix.fr
       http:
         paths:
           - path: /()(sitemap).xml
@@ -17,5 +17,5 @@ spec:
               servicePort: 8080
   tls:
     - hosts:
-        - production.mathrix.tech
-      secretName: production.mathrix.tech-secret
+        - mathrix.fr
+      secretName: mathrix.fr-secret
