@@ -14,4 +14,4 @@ resources:
   - ingress.yaml
 images:
   - name: grafana/grafana
-    newTag: 6.7.3
+    newTag: 7.0.0
