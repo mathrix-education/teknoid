@@ -21,11 +21,8 @@ spec:
                 limits:
                   cpu: '1'
                   memory: 768Mi
-              command:
-                - node
-                - /var/www/dist/server/main
-                - render
+              args: [render]
               envFrom:
-                - configMapRef:
+                - secretRef:
                     name: education-angular-v7-env
           restartPolicy: OnFailure

@@ -19,6 +19,9 @@ spec:
       labels:
         app.kubernetes.io/name: railgun-server
         app.kubernetes.io/component: server
+      annotations:
+        prometheus.io/port: '8080'
+        prometheus.io/scrape: 'true'
     spec:
       serviceAccountName: railgun
       terminationGracePeriodSeconds: 10

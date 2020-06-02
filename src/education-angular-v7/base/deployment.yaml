@@ -32,6 +32,7 @@ spec:
         - name: server
           image: eu.gcr.io/mathrix-education/education-angular-v7
           imagePullPolicy: Always
+          args: [server]
           resources:
             requests:
               cpu: 100m
@@ -40,7 +41,7 @@ spec:
 #              cpu: 100m
 #              memory: 128Mi
           envFrom:
-            - configMapRef:
+            - secretRef:
                 name: education-angular-v7-env
           env:
             - name: NODE_OPTIONS

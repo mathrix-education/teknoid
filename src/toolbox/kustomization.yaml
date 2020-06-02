@@ -4,5 +4,9 @@ namespace: services
 commonLabels:
   app.kubernetes.io/part-of: toolbox
   app.kubernetes.io/managed-by: kustomize
+configMapGenerator:
+  - name: init-sh
+    files:
+      - scripts/init.sh
 resources:
   - deployment.yaml

@@ -30,19 +30,11 @@ scrape_configs:
       - source_labels: [__meta_kubernetes_service_name]
         regex: prometheus-server
         action: drop
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        regex: (production|edge)
+        target_label: environment
       - source_labels: [__meta_kubernetes_pod_name]
         regex: (.*redis.*)
         target_label: instance
         replacement: redis.services.svc.cluster.local
-  - job_name: railgun-edge
-    static_configs:
-      - targets:
-          - railgun.edge.svc.cluster.local:8080
-        labels:
-          environment: edge
-  - job_name: railgun-production
-    static_configs:
-      - targets:
-          - railgun.production.svc.cluster.local:8080
-        labels:
-          environment: production

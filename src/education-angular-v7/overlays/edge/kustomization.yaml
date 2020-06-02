@@ -4,14 +4,12 @@ namespace: edge
 commonLabels:
   app.kubernetes.io/part-of: education-angular-v7
   app.kubernetes.io/managed-by: kustomize
-configMapGenerator:
-  - name: education-angular-v7-env
-    behavior: merge
-    envs: [config/.env]
 secretGenerator:
   - name: htpasswd
-    files:
-      - secrets/auth
+    files: [secrets/auth]
+  - name: education-angular-v7-env
+    behavior: merge
+    envs: [secrets/.env]
 resources:
   - ../../base
 patchesStrategicMerge:
