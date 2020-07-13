@@ -16,5 +16,5 @@ patchesStrategicMerge:
   - ingress.yaml
   - server.replicas.yaml
 images:
-  - name: eu.gcr.io/mathrix-education/education-api
+  - name: eu.gcr.io/mathrix-education/railgun
     newTag: latest-edge
