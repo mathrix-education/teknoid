@@ -43,6 +43,7 @@ grimoire) single "grimoire" ;;
 prometheus) single "prometheus" ;;
 railgun) multi "railgun" "${2:-all}" ;;
 redis) single "redis" ;;
+slightly) multi "slightly" "${2:-all}" ;;
 toolbox) single "toolbox" ;;
 
 *)

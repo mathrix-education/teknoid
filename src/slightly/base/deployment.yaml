@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slightly
+  labels:
+    app.kubernetes.io/name: slightly
+    app.kubernetes.io/component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: slightly
+      app.kubernetes.io/component: server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: slightly
+        app.kubernetes.io/component: server
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values: [slightly]
+                topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: server
+          image: eu.gcr.io/mathrix-education/slightly
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+#            limits:
+#              cpu: 100m
+#              memory: 128Mi
+          envFrom:
+            - secretRef:
+                name: slightly-env
+          env:
+            - name: NODE_OPTIONS
+              value: --max-old-space-size=8192
+          ports:
+            - containerPort: 3000
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: 4000
+#              httpHeaders:
+#                - name: User-Agent
+#                  value: Kubernetes Liveness Probe

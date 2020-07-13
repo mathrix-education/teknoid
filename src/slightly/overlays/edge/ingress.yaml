@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: slightly
+spec:
+  rules:
+    - host: edge.mathrix.tech
+      http:
+        paths:
+          - path: /slightly(/|$)(.*)
+            backend:
+              serviceName: slightly
+              servicePort: 3000
+  tls:
+    - hosts:
+        - edge.mathrix.tech
+      secretName: edge.mathrix.tech-secret
