@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: institut
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: teknoid
+spec:
+  rules:
+    - host: institut.mathrix.fr
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: institut
+              servicePort: 80
+  tls:
+    - hosts:
+        - institut.mathrix.fr
+      secretName: institut.mathrix.fr-secret

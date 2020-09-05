@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: institut
+  labels:
+    app.kubernetes.io/name: institut
+    app.kubernetes.io/component: service
+spec:
+  selector:
+    app.kubernetes.io/name: institut-wordpress
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

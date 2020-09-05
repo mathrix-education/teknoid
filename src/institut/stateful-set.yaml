@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: institut
+  labels:
+    app.kubernetes.io/name: institut-wordpress
+    app.kubernetes.io/component: server
+spec:
+  replicas: 1
+  serviceName: institut
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: institut-wordpress
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: institut-wordpress
+    spec:
+      containers:
+        - name: server
+          image: wordpress
+          envFrom:
+            - secretRef:
+                name: institut-env
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: wordpress
+              mountPath: /var/www/html
+  volumeClaimTemplates:
+    - metadata:
+        name: wordpress
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
