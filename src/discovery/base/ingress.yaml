@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: education-angular-v7
+  name: discovery
   labels:
-    app.kubernetes.io/name: education-angular-v7
+    app.kubernetes.io/name: discovery
     app.kubernetes.io/component: ingress
   annotations:
     kubernetes.io/ingress.class: nginx

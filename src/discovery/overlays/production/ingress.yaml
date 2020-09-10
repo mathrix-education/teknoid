@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: education-angular-v7
+  name: discovery
   annotations:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
@@ -11,7 +11,7 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: education-angular-v7
+              serviceName: discovery
               servicePort: 4000
   tls:
     - hosts:

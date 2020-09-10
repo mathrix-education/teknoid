@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: education-angular-v7
+  name: discovery
   labels:
-    app.kubernetes.io/name: education-angular-v7
+    app.kubernetes.io/name: discovery
     app.kubernetes.io/component: service
 spec:
   selector:
-    app.kubernetes.io/name: education-angular-v7
+    app.kubernetes.io/name: discovery
     app.kubernetes.io/component: server
   ports:
     - name: http

@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: production
 secretGenerator:
-  - name: education-angular-v7-env
+  - name: discovery-env
     behavior: merge
     envs: [secrets/.env]
 resources:
@@ -11,5 +11,5 @@ patchesStrategicMerge:
   - ingress.yaml
   - deployment.yaml
 images:
-  - name: eu.gcr.io/mathrix-education/education-angular-v7
-    newTag: latest-production
+  - name: eu.gcr.io/mathrix-education/discovery
+    newTag: 11.3.0-177.c84f4e3

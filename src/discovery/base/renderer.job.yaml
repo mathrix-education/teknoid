@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: education-angular-v7-renderer
+  name: discovery-renderer
 spec:
   schedule: '0 * * * *'
   concurrencyPolicy: Forbid
@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: renderer
-              image: eu.gcr.io/mathrix-education/education-angular-v7
+              image: eu.gcr.io/mathrix-education/discovery
               imagePullPolicy: Always
               resources:
                 requests:
@@ -24,5 +24,5 @@ spec:
               args: [render]
               envFrom:
                 - secretRef:
-                    name: education-angular-v7-env
+                    name: discovery-env
           restartPolicy: OnFailure

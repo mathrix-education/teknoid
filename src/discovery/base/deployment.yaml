@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: education-angular-v7
+  name: discovery
   labels:
-    app.kubernetes.io/name: education-angular-v7
+    app.kubernetes.io/name: discovery
     app.kubernetes.io/component: server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: education-angular-v7
+      app.kubernetes.io/name: discovery
       app.kubernetes.io/component: server
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: education-angular-v7
+        app.kubernetes.io/name: discovery
         app.kubernetes.io/component: server
     spec:
       affinity:
@@ -26,11 +26,11 @@ spec:
                   matchExpressions:
                     - key: app.kubernetes.io/name
                       operator: In
-                      values: [education-angular-v7]
+                      values: [discovery]
                 topologyKey: "kubernetes.io/hostname"
       containers:
         - name: server
-          image: eu.gcr.io/mathrix-education/education-angular-v7
+          image: eu.gcr.io/mathrix-education/discovery
           imagePullPolicy: Always
           args: [server]
           resources:
@@ -42,7 +42,7 @@ spec:
 #              memory: 128Mi
           envFrom:
             - secretRef:
-                name: education-angular-v7-env
+                name: discovery-env
           env:
             - name: NODE_OPTIONS
               value: --max-old-space-size=8192

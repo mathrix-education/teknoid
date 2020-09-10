@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: education-angular-v7
+  name: discovery
 spec:
   replicas: 2

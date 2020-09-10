@@ -35,7 +35,7 @@ case $1 in
 -h) usage ;;
 --help) usage ;;
 
-education-angular-v7) multi "education-angular-v7" "${2:-all}" ;;
+discovery) multi "discovery" "${2:-all}" ;;
 institut) single "institut" ;;
 mysql) single "mysql" ;;
 nginx-ingress) single "nginx-ingress" ;;
